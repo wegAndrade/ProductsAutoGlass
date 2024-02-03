@@ -12,7 +12,7 @@ namespace AutoGlass.Products.Infra.Contexts.Mappings
             builder.HasKey(b => b.CodigoProduto);
             builder.Property(b => b.CodigoProduto);   
             builder.Property(b => b.Descricao);
-            builder.Property(b => b.Situacao);
+            builder.Property(b => b.Situacao).HasDefaultValue(true);
             builder.Property(b => b.DataFabricacao);
             builder.Property(b => b.DataValidade);
             builder.Property(b => b.CodigoFornecedor);

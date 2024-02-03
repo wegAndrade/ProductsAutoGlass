@@ -35,6 +35,7 @@ namespace AutoGlass.Products.Application.Services
 
             }
             Product product = _mapper.Map<Product>(productDto);
+            product.Situacao = true;
 
             await _productRepository.Add(product);
 
@@ -81,6 +82,7 @@ namespace AutoGlass.Products.Application.Services
 
             product = _mapper.Map<Product>(productDto);
             product.CodigoProduto = productId;
+            product.Situacao = true;
             await _productRepository.Update(product);
         }
     }

@@ -9,11 +9,11 @@ namespace AutoGlass.Products.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController : ControllerBase
+    public class ProductsController : ControllerBase
     {
         private readonly IProductService _productService;
 
-        public ProductController(IProductService productService)
+        public ProductsController(IProductService productService)
         {
             _productService = productService;
         }
@@ -26,11 +26,11 @@ namespace AutoGlass.Products.WebApi.Controllers
                 
                 var products = await _productService.GetAll();
 
-                if(products is null || products.Any())
+                if(products is null || !products.Any())
                 {
                     return NoContent();
                 }
-                var response = await PagedResponseExtensions.GetPagedListAsync<Product>(products.AsQueryable(), paginationQuery);
+                var response =  PagedResponseExtensions.GetPagedListAsync<Product>(products.AsQueryable(), paginationQuery);
                 return Ok(response);
             }
             catch (Exception ex)
@@ -68,14 +68,9 @@ namespace AutoGlass.Products.WebApi.Controllers
         {
             try
             {
-               var codigoProduto = await _productService.Add(product);
+               var productId = await _productService.Add(product);
 
-                if (product is null)
-                {
-                    return NotFound();
-                }
-
-                return CreatedAtAction(nameof(ProductController.Get),new {productId = codigoProduto });
+                return Created($"api/Products/{productId}", new { });
             }
             catch (Exception ex)
             {
@@ -89,12 +84,7 @@ namespace AutoGlass.Products.WebApi.Controllers
         {
             try
             {
-            await _productService.Update(product, productId);
-
-                if (product is null)
-                {
-                    return NotFound();
-                }
+                 await _productService.Update(product, productId);
 
                 return NoContent();
             }
@@ -107,7 +97,7 @@ namespace AutoGlass.Products.WebApi.Controllers
 
 
         [HttpDelete("{productId}")]
-        public async Task<IActionResult> Put([FromRoute] int productId)
+        public async Task<IActionResult> Delete([FromRoute] int productId)
         {
             try
             {
