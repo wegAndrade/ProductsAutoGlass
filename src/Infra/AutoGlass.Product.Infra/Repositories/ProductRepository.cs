@@ -28,17 +28,17 @@ namespace AutoGlass.Products.Infra.Repositories
 
         public async Task<IEnumerable<Product>> GetAll()
         {
-            return await _context.Products.Where(p => p.Situacao).ToListAsync();
+            return await _context.Products.AsNoTracking().Where(p => p.Situacao).ToListAsync();
         }
 
         public async Task<Product?> GetById(int id)
         {
-            return await _context.Products.FirstOrDefaultAsync(p => p.CodigoProduto == id && p.Situacao);
+            return await _context.Products.AsNoTracking().FirstOrDefaultAsync(p => p.CodigoProduto == id && p.Situacao);
         }
 
         public async Task Update(Product product)
         {
-            _context.Products.Attach(product);
+            _context.Products.Update(product);
             await _context.SaveChangesAsync();
         }
     }
