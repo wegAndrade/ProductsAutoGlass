@@ -6,14 +6,17 @@ namespace AutoGlass.Products.Application.Validators
 {
     public class ProductDtoValidate : AbstractValidator<ProductDto>
     {
-
+        protected void ValidateDescription()
+               => RuleFor(p => p.descricao)
+            .NotNull().WithMessage("Descrição deve ser informada");
         protected void ValidateDataFabricacao()
             => RuleFor(p => p)
             .Must(HaveDataFabricacaoNotGreaterThanDataValidade)
             .WithMessage("Data de Fabricação deve ser menor que a data de validade");
 
         protected void ValidateCNPJFornecedor() => RuleFor(p => p.cnpjForncedor)
-            .Must((dto, cnpj) => ValidarCNPJ(cnpj));
+            .Must((dto, cnpj) => ValidarCNPJ(cnpj))
+            .WithMessage("CNPJ Inválido");
          
         protected static bool HaveDataFabricacaoNotGreaterThanDataValidade(ProductDto dto)
             => DateTime.Compare(dto.dataFabricacao, dto.dataValidade) <= 0;

@@ -10,9 +10,9 @@ namespace AutoGlass.Products.Application.Configuration
 {
     public static class ApplicationConfiguration
     {
-        public static IServiceCollection InjectApplication(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection InjectApplication(this IServiceCollection services, IConfiguration configuration, string assemblyName)
         {
-            services.InjectInfra(configuration);
+            services.InjectInfra(configuration, assemblyName);
             services.InjectDomain();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<ProductDtoValidation>();

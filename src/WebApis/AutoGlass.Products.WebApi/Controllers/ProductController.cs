@@ -1,5 +1,8 @@
 ﻿using AutoGlass.Products.Domain.Dto_s;
+using AutoGlass.Products.Domain.Entities;
 using AutoGlass.Products.Domain.Interfaces.Services;
+using AutoGlass.Products.WebApi.Extensions;
+using AutoGlass.Products.WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AutoGlass.Products.WebApi.Controllers
@@ -16,19 +19,19 @@ namespace AutoGlass.Products.WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] PageQuery paginationQuery)
         {
             try
             {
-                //TODO - Fazer Paginação
+                
                 var products = await _productService.GetAll();
 
                 if(products is null || products.Any())
                 {
                     return NoContent();
                 }
-
-                return Ok(products);
+                var response = await PagedResponseExtensions.GetPagedListAsync<Product>(products.AsQueryable(), paginationQuery);
+                return Ok(response);
             }
             catch (Exception ex)
             {

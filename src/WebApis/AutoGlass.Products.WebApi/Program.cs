@@ -2,7 +2,7 @@ using AutoGlass.Products.Application.Configuration;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.InjectApplication(builder.Configuration);
+builder.Services.InjectApplication(builder.Configuration, typeof(Program).Assembly.FullName);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

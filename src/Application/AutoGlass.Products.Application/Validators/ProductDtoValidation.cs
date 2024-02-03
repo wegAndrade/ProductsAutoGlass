@@ -8,11 +8,13 @@ namespace AutoGlass.Products.Application.Validators
         {
             RuleSet(ProductDtoValidationRuleConstants.AddRule, () =>
             {
+                ValidateDescription();
                 ValidateDataFabricacao();
                 ValidateCNPJFornecedor();
             });
             RuleSet(ProductDtoValidationRuleConstants.UpdateRule, () =>
             {
+                ValidateDescription();
                 ValidateDataFabricacao();
                 ValidateCNPJFornecedor();
             });

@@ -9,11 +9,11 @@ namespace AutoGlass.Products.Infra.Configuration
 {
     public static class InfraConfiguration
     {
-        public static IServiceCollection InjectInfra(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection InjectInfra(this IServiceCollection services, IConfiguration configuration, string assemblyName)
         {
-            var connectionString = configuration.GetConnectionString("Default");
+            var connectionString = configuration.GetConnectionString("DefaultConnection");
 
-            services.AddDbContext<AutoGlassProductsDbContext>(opt => opt.UseSqlServer(connectionString));
+            services.AddDbContext<AutoGlassProductsDbContext>(opt => opt.UseSqlServer(connectionString, b=> b.MigrationsAssembly(assemblyName)));
             services.AddScoped<IProductRepository, ProductRepository>();
 
             return services;
