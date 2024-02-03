@@ -13,7 +13,7 @@ namespace AutoGlass.Products.Infra.Configuration
         {
             var connectionString = configuration.GetConnectionString("DefaultConnection");
 
-            services.AddDbContext<AutoGlassProductsDbContext>(opt => opt.UseSqlServer(connectionString, b=> b.MigrationsAssembly(assemblyName)));
+            services.AddDbContext<AutoGlassProductsDbContext>(opt => opt.UseNpgsql(connectionString, b=> b.MigrationsAssembly(assemblyName)));
             services.AddScoped<IProductRepository, ProductRepository>();
 
             return services;

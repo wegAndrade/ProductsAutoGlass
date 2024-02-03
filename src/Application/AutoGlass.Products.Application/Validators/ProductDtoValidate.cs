@@ -14,12 +14,12 @@ namespace AutoGlass.Products.Application.Validators
             .Must(HaveDataFabricacaoNotGreaterThanDataValidade)
             .WithMessage("Data de Fabricação deve ser menor que a data de validade");
 
-        protected void ValidateCNPJFornecedor() => RuleFor(p => p.cnpjForncedor)
+        protected void ValidateCNPJFornecedor() => RuleFor(p => p.CNPJFornecedor)
             .Must((dto, cnpj) => ValidarCNPJ(cnpj))
             .WithMessage("CNPJ Inválido");
          
         protected static bool HaveDataFabricacaoNotGreaterThanDataValidade(ProductDto dto)
-            => DateTime.Compare(dto.dataFabricacao, dto.dataValidade) <= 0;
+            => DateTime.Compare(dto.dataValidade,dto.dataFabricacao) > 0;
         private static bool ValidarCNPJ(string cnpj)
         {
             if (cnpj.Length != 14) // CNPJ tem 14 dígitos

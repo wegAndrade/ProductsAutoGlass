@@ -9,7 +9,18 @@ namespace AutoGlass.Products.Tests.Application
         [Fact]
         public void ShoudbeInvalidWhenDataFabricacaoMaiorQueDataValidadeOnAddRule()
         {
-            var productDTO = new ProductDto("Teste",true,DateTime.Now.AddDays(2), DateTime.Now, 2, "15395626000111");
+            var productDTO = new ProductDto("Teste",DateTime.Now.AddDays(2), DateTime.Now, 2, "15395626000111");
+            var validator = new ProductDtoValidation();
+            var result = validator.Validate(productDTO, opt => opt.IncludeRuleSets(ProductDtoValidationRuleConstants.AddRule));
+            Assert.NotNull(result);
+            Assert.False(result.IsValid);
+        }
+
+        [Fact]
+        public void ShoudbeInvalidWhenDataFabricacaoIgualQueDataValidadeOnAddRule()
+        {
+            var date = DateTime.Now;
+            var productDTO = new ProductDto("Teste", date, date, 2, "15395626000111");
             var validator = new ProductDtoValidation();
             var result = validator.Validate(productDTO, opt => opt.IncludeRuleSets(ProductDtoValidationRuleConstants.AddRule));
             Assert.NotNull(result);
@@ -18,7 +29,7 @@ namespace AutoGlass.Products.Tests.Application
         [Fact]
         public void ShoudbeInvalidWhenDataFabricacaoMaiorQueDataValidadeOnUpdateRule()
         {
-            var productDTO = new ProductDto("Teste", true, DateTime.Now.AddDays(2), DateTime.Now, 2, "15395626000111");
+            var productDTO = new ProductDto("Teste", DateTime.Now.AddDays(2), DateTime.Now, 2, "15395626000111");
             var validator = new ProductDtoValidation();
             var result = validator.Validate(productDTO, opt => opt.IncludeRuleSets(ProductDtoValidationRuleConstants.UpdateRule));
             Assert.NotNull(result);
@@ -27,7 +38,7 @@ namespace AutoGlass.Products.Tests.Application
         [Fact]
         public void ShoudbeInvalidWhenCNPJForncedorInvalidoOnAddRule()
         {
-            var productDTO = new ProductDto("Teste", true, DateTime.Now.AddDays(-2), DateTime.Now, 2, "15395626100011");
+            var productDTO = new ProductDto("Teste", DateTime.Now.AddDays(-2), DateTime.Now, 2, "15395626100011");
             var validator = new ProductDtoValidation();
             var result = validator.Validate(productDTO, opt => opt.IncludeRuleSets(ProductDtoValidationRuleConstants.AddRule));
             Assert.NotNull(result);
@@ -37,7 +48,7 @@ namespace AutoGlass.Products.Tests.Application
         [Fact]
         public void ShoudbeInvalidWhenCNPJForncedorInvalidoOnUpdateRule()
         {
-            var productDTO = new ProductDto("Teste", true, DateTime.Now.AddDays(-2), DateTime.Now, 2, "123123123123");
+            var productDTO = new ProductDto("Teste", DateTime.Now.AddDays(-2), DateTime.Now, 2, "123123123123");
             var validator = new ProductDtoValidation();
             var result = validator.Validate(productDTO, opt => opt.IncludeRuleSets(ProductDtoValidationRuleConstants.AddRule));
             Assert.NotNull(result);
